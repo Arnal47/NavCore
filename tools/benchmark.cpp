@@ -1,0 +1,6 @@
+#include "navcore/navcore.hpp"
+#include <fstream>
+#include <iostream>
+#include <string>
+
+int main() { navcore::RoadGraph g; constexpr int n=30; for(int y=0;y<n;++y) for(int x=0;x<n;++x) g.add_node({std::to_string(y*n+x),30.0+y*.001,120.0+x*.001}); for(int y=0;y<n;++y) for(int x=0;x<n;++x) { int a=y*n+x; if(x+1<n) g.add_edge({std::to_string(a),std::to_string(a+1),100,50,7.2,"grid",false}); if(y+1<n) g.add_edge({std::to_string(a),std::to_string(a+n),100,50,7.2,"grid",false}); } std::ofstream out("reports/benchmark.csv"); out<<"algorithm,route_cost,expanded_nodes,execution_time_ms\n"; std::ofstream md("reports/benchmark.md"); md<<"# NavCore benchmark\n\nSynthetic 30x30 grid (900 nodes), distance objective.\n\n| Algorithm | Route cost (m) | Expanded nodes | Execution time (ms) |\n|---|---:|---:|---:|\n"; for(auto a:{navcore::Algorithm::Dijkstra,navcore::Algorithm::AStar}) { navcore::RouteOptions o; o.algorithm=a; auto r=navcore::route(g,"0","899",o); std::string name=a==navcore::Algorithm::AStar?"astar":"dijkstra"; out<<name<<','<<r.total_distance_m<<','<<r.expanded_nodes<<','<<r.runtime_ms<<'\n'; md<<"| "<<name<<" | "<<r.total_distance_m<<" | "<<r.expanded_nodes<<" | "<<r.runtime_ms<<" |\n"; } }
