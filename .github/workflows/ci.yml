@@ -10,3 +10,6 @@ jobs:
       - run: cmake --build build -- -k 0
       - run: ctest --test-dir build --output-on-failure
       - run: ./build/navcore_cli --map data/sample_map.csv --from A --to F --algo astar --cost time
+      - run: ./build/navcore_cli --osm data/sample_map.osm --from-node 1 --to-node 3 --algo astar --cost time
+      - run: ./build/navcore_match --osm data/sample_map.osm --gps data/sample_trace.csv
+      - run: ./build/navcore_match_benchmark

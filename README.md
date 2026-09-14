@@ -36,3 +36,8 @@ CLI 输出路径、总距离、ETA、访问节点与运行时间。可传入 `--
 ## 测试、基准与 CI
 
 CT​​est 覆盖最短距离、最快路线、Dijkstra/A* 一致性、单行/不可达、封路、避开 motorway、重复节点、无效边和起点等于终点。基准生成 30x30（900 节点）网格并写入 `reports/benchmark.csv` 与 Markdown 摘要。GitHub Actions 在 Ubuntu 以 Clang C++17、warnings-as-errors 执行构建、CTest 与 CLI 冒烟测试。
+
+## V2: OSM + GPS map matching
+
+V2 adds offline small-XML OSM import and a lightweight educational GPS matcher. See [V2 design](docs/v2_map_matching.md). Build 
+avcore_match and run it with --osm data/sample_map.osm --gps data/sample_trace.csv. The fixtures and CI are fully offline; V2 intentionally excludes PBF, spatial indexes, GUI, traffic, and multithreading.

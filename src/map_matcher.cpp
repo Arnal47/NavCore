@@ -1,0 +1,11 @@
+#include "navcore/navcore.hpp"
+#include <algorithm>
+#include <cmath>
+#include <fstream>
+#include <sstream>
+#include <stdexcept>
+namespace navcore { namespace { constexpr double pi=3.14159265358979323846; double deg(double x){return x*180/pi;} double heading(const Node&a,const Node&b){double y=std::sin((b.longitude-a.longitude)*pi/180)*std::cos(b.latitude*pi/180),x=std::cos(a.latitude*pi/180)*std::sin(b.latitude*pi/180)-std::sin(a.latitude*pi/180)*std::cos(b.latitude*pi/180)*std::cos((b.longitude-a.longitude)*pi/180);return std::fmod(deg(std::atan2(y,x))+360,360);} double diff(double a,double b){double d=std::fabs(a-b);return d>180?360-d:d;} }
+std::vector<GpsPoint> load_gps_trace(const std::string&p){std::ifstream in(p);if(!in)throw std::runtime_error("cannot open GPS trace: "+p);std::vector<GpsPoint> r;std::string l;std::getline(in,l);while(std::getline(in,l)){std::stringstream s(l);std::string a,b,c;std::getline(s,a,',');std::getline(s,b,',');std::getline(s,c,',');r.push_back({std::stod(a),std::stod(b),c.empty()?std::optional<double>{}:std::optional<double>{std::stod(c)}});}return r;}
+MatchResult match_point(const RoadGraph&g,const GpsPoint&p){std::optional<MatchResult> best;for(const auto& n:g.nodes())for(const auto&e:g.outgoing(n.first)){const auto&a=g.node(e.from),&b=g.node(e.to);double lat0=p.latitude,scale=111320,dx=(b.longitude-a.longitude)*scale*std::cos(lat0*pi/180),dy=(b.latitude-a.latitude)*scale,px=(p.longitude-a.longitude)*scale*std::cos(lat0*pi/180),py=(p.latitude-a.latitude)*scale;double q=dx*dx+dy*dy,t=q>0?std::clamp((px*dx+py*dy)/q,0.0,1.0):0;double sx=a.latitude+t*(b.latitude-a.latitude),sy=a.longitude+t*(b.longitude-a.longitude),dist=std::hypot(px-t*dx,py-t*dy),hd=p.heading_deg?diff(*p.heading_deg,heading(a,b)):0,score=dist+hd*.25;MatchResult m{e,e.osm_way_id,e.road_name,sx,sy,dist,hd,score};if(!best||m.score<best->score)best=m;}if(!best)throw std::runtime_error("cannot match against an empty road graph");return *best;}
+std::vector<MatchResult> match_sequence(const RoadGraph&g,const std::vector<GpsPoint>&ps){std::vector<MatchResult> r;for(const auto&p:ps){auto m=match_point(g,p);if(!r.empty()&&m.osm_way_id!=r.back().osm_way_id)m.score+=2.0;r.push_back(m);}return r;}
+}
