@@ -1,0 +1,3 @@
+algorithm,route_cost,expanded_nodes,execution_time_ms
+dijkstra,5800,900,9.3168
+astar,5800,900,9.4247

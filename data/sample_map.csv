@@ -1,0 +1,13 @@
+# type,id,latitude,longitude OR type,from,to,length_m,speed_limit_kph,travel_time_s,road_class,one_way
+N,A,31.2304,121.4737
+N,B,31.2310,121.4800
+N,C,31.2350,121.4850
+N,D,31.2400,121.4900
+N,E,31.2450,121.4950
+N,F,31.2500,121.5000
+E,A,B,2000,100,72,primary,1
+E,B,C,1000,100,36,primary,1
+E,C,F,2000,100,72,motorway,1
+E,A,D,900,30,108,secondary,1
+E,D,E,900,30,108,secondary,0
+E,E,F,900,30,108,secondary,1
