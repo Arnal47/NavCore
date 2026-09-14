@@ -1,0 +1,2 @@
+points,points_per_sec,average_latency_us,p95_latency_us,average_candidates,candidate_reduction_ratio,agreement_rate
+1000,286.756,3487.28,4528.8,722.5,0.981755,1

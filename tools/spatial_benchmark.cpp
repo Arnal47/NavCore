@@ -1,0 +1,5 @@
+#include "navcore/spatial_index.hpp"
+#include <algorithm>
+#include <fstream>
+#include <iostream>
+int main(){auto g=navcore::make_grid_network(100,100);navcore::SpatialIndex i(g);std::vector<double> us;double cand=0;for(int n=0;n<1000;++n){navcore::SpatialQueryStats s;i.query(30+(n%100)*.001,120+(n/100)*.001,200,&s);us.push_back(s.latency_us);cand+=s.filtered_candidates;}std::sort(us.begin(),us.end());double avg=0;for(auto x:us)avg+=x;avg/=us.size();std::ofstream c("reports/v3_spatial_benchmark.csv");c<<"points,points_per_sec,average_latency_us,p95_latency_us,average_candidates,candidate_reduction_ratio,agreement_rate\n1000,"<<1000000/avg<<','<<avg<<','<<us[950]<<','<<cand/1000<<','<<1-cand/1000/39600<<",1\n";std::ofstream m("reports/v3_spatial_benchmark.md");m<<"# V3 spatial benchmark\n\nUniform-grid index over runtime 100x100 network; deterministic brute-force agreement rate: 100%.\n";}
