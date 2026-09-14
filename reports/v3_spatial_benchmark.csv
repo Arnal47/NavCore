@@ -1,2 +1,2 @@
-points,points_per_sec,average_latency_us,p95_latency_us,average_candidates,candidate_reduction_ratio,agreement_rate
-1000,292.413,3419.82,4433,722.5,0.981755,1
+total_samples,indexed_matches,brute_force_matches,agreement_count,agreement_rate,indexed_average_latency_us,brute_force_average_latency_us,indexed_p95_latency_us,brute_force_p95_latency_us,indexed_average_candidates,brute_force_average_candidates,candidate_reduction_ratio,mismatch_count
+1000,829,1000,829,0.829,4357.79,41749.8,5984.5,48660.4,722.5,39600,0.981755,171
