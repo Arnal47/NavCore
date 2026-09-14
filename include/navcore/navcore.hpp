@@ -23,6 +23,7 @@ class RoadGraph {
   [[nodiscard]] bool has_node(const std::string& id) const;
   [[nodiscard]] const Node& node(const std::string& id) const;
   [[nodiscard]] const std::vector<Edge>& outgoing(const std::string& id) const;
+  [[nodiscard]] const std::unordered_map<std::string, Node>& nodes() const noexcept { return nodes_; }
   [[nodiscard]] std::size_t node_count() const noexcept { return nodes_.size(); }
  private:
   std::unordered_map<std::string, Node> nodes_;

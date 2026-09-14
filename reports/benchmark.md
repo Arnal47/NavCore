@@ -4,5 +4,5 @@ Synthetic 30x30 grid (900 nodes), distance objective.
 
 | Algorithm | Route cost (m) | Expanded nodes | Execution time (ms) |
 |---|---:|---:|---:|
-| dijkstra | 5800 | 900 | 6.9441 |
-| astar | 5800 | 833 | 7.1504 |
+| dijkstra | 5800 | 900 | 9.3168 |
+| astar | 5800 | 900 | 9.4247 |
