@@ -10,7 +10,7 @@ namespace navcore {
 struct Node { std::string id; double latitude{}; double longitude{}; };
 struct Edge { std::string from; std::string to; double length_m{}; double speed_limit_kph{}; double travel_time_s{}; std::string road_class; bool one_way{true}; std::string osm_way_id; std::string road_name; std::string source_osm_node_id; std::string target_osm_node_id; };
 enum class Cost { Distance, Time }; enum class Algorithm { Dijkstra, AStar };
-struct RouteOptions { Cost cost{Cost::Distance}; Algorithm algorithm{Algorithm::Dijkstra}; std::unordered_set<std::string> blocked_edges; std::unordered_set<std::string> avoided_classes; };
+struct RouteOptions { Cost cost{Cost::Distance}; Algorithm algorithm{Algorithm::Dijkstra}; std::unordered_set<std::string> blocked_edges; std::unordered_set<std::string> avoided_classes; std::unordered_map<std::string,double> speed_overrides_kph; };
 struct RouteResult { std::vector<std::string> path_nodes; std::vector<Edge> path_edges; double total_distance_m{}; double estimated_travel_time_s{}; std::size_t expanded_nodes{}; double runtime_ms{}; };
 class RoadGraph { public: void add_node(Node node); void add_edge(Edge edge); [[nodiscard]] bool has_node(const std::string& id) const; [[nodiscard]] const Node& node(const std::string& id) const; [[nodiscard]] const std::vector<Edge>& outgoing(const std::string& id) const; [[nodiscard]] const std::unordered_map<std::string,Node>& nodes() const noexcept{return nodes_;} [[nodiscard]] std::size_t node_count() const noexcept{return nodes_.size();} private: std::unordered_map<std::string,Node> nodes_; std::unordered_map<std::string,std::vector<Edge>> adjacency_; };
 struct GpsPoint { double latitude{}; double longitude{}; std::optional<double> heading_deg; };

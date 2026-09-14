@@ -1,0 +1,3 @@
+#include "navcore/road_event.hpp"
+#include <stdexcept>
+namespace navcore { void RoadEventOverlay::close(const std::string&e){closed_.insert(e);} void RoadEventOverlay::override_speed(const std::string&e,double s){if(s<=0)throw std::runtime_error("invalid speed override");speeds_[e]=s;} bool RoadEventOverlay::closed(const Edge&e)const{return closed_.count(edge_key(e));} double RoadEventOverlay::speed(const Edge&e)const{auto i=speeds_.find(edge_key(e));return i==speeds_.end()?e.speed_limit_kph:i->second;} void RoadEventOverlay::apply(RouteOptions&o)const{for(const auto&e:closed_)o.blocked_edges.insert(e);for(const auto&v:speeds_)o.speed_overrides_kph[v.first]=v.second;} }
