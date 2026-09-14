@@ -7,3 +7,7 @@ Default engineering speeds (km/h): motorway 110, trunk 90, primary 70, secondary
 Map matching brute-forces road segments. It projects the GPS point to each local segment, scores lateral distance plus optional heading difference, and returns the best snapped point. Sequence matching applies a lightweight continuity penalty when a way changes. Complexity is O(points × edges); no PBF, R-tree, KD-tree, real-time traffic, multithreading, or GUI is included.
 
 Example: `navcore_match --osm data/sample_map.osm --gps data/sample_trace.csv`.
+
+## Sequence and rejection policy
+
+Each GPS sample retains up to six in-range candidates. Dynamic programming minimizes emission and transition penalties for way changes or non-contiguous edges, then backtracks the globally best sequence. GPS points more than 200 m from every segment are explicitly unmatched and are never force-snapped. Benchmark candidate counts are collected from actual candidate sets.
