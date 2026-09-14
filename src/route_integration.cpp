@@ -1,0 +1,3 @@
+#include "navcore/navcore.hpp"
+#include <stdexcept>
+namespace navcore { RouteResult route_from_matches(const RoadGraph& g,const std::vector<MatchResult>& m,const RouteOptions& o){if(m.size()<2)throw std::runtime_error("GPS route integration requires at least two matches");const auto& first=m.front().matched_edge;const auto& last=m.back().matched_edge;auto r=route(g,first.from,last.to,o);if(r.path_nodes.empty())throw std::runtime_error("matched endpoints are not routable");return r;} }

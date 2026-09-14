@@ -1,0 +1,6 @@
+#include "navcore/navcore.hpp"
+#include <functional>
+#include <iostream>
+#include <stdexcept>
+static void ok(bool b,const char*m){if(!b)throw std::runtime_error(m);} static void bad(const std::function<void()>&f){try{f();}catch(const std::exception&){return;}throw std::runtime_error("expected error");}
+int main(){try{auto g=navcore::load_osm_map("data/sample_map.osm");ok(g.node_count()==5,"OSM nodes");ok(navcore::default_speed_kph("residential")==30,"speed profile");ok(g.outgoing("2").size()>0,"oneway yes");ok(g.outgoing("4").size()>0,"reverse oneway");auto one=navcore::match_point(g,{31.2300,121.4750,90});ok(one.osm_way_id=="100","heading single match");auto seq=navcore::match_sequence(g,navcore::load_gps_trace("data/sample_trace.csv"));ok(seq.size()==3,"sequence continuity");ok(seq[0].candidate_count>0,"candidate collection");bad([&]{navcore::match_point(g,{0,0,{}});});auto r=navcore::route_from_matches(g,seq);ok(!r.path_nodes.empty()&&!r.path_edges.empty(),"GPS route integration");std::cout<<"v2 tests passed\n";}catch(const std::exception&e){std::cerr<<e.what()<<'\n';return 1;}}
