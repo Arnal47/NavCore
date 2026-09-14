@@ -1,0 +1,3 @@
+#include "navcore/navcore.hpp"
+#include <iostream>
+int main(int c,char**v){try{std::string osm,gps;for(int i=1;i+1<c;i+=2){std::string k=v[i];if(k=="--osm")osm=v[i+1];else if(k=="--gps")gps=v[i+1];else throw std::runtime_error("unknown option: "+k);}if(osm.empty()||gps.empty())throw std::runtime_error("usage: navcore_match --osm FILE --gps FILE");auto pts=navcore::load_gps_trace(gps);auto ms=navcore::match_sequence(navcore::load_osm_map(osm),pts);for(size_t i=0;i<ms.size();++i)std::cout<<"GPS "<<i<<": way "<<ms[i].osm_way_id<<" "<<ms[i].road_name<<" snapped="<<ms[i].snapped_latitude<<","<<ms[i].snapped_longitude<<" lateral_m="<<ms[i].lateral_distance_m<<" score="<<ms[i].score<<'\n';}catch(const std::exception&e){std::cerr<<"error: "<<e.what()<<'\n';return 2;}}
