@@ -1,2 +1,2 @@
-total_samples,indexed_matches,brute_force_matches,agreement_count,agreement_rate,indexed_average_latency_us,brute_force_average_latency_us,indexed_p95_latency_us,brute_force_p95_latency_us,indexed_average_candidates,brute_force_average_candidates,candidate_reduction_ratio,mismatch_count
-1000,832,1000,832,0.832,5481.21,42261.9,7233.2,44984.2,745,39600,0.981187,168
+index_build_ms,total_samples,strict_agreement_rate,equivalent_tie_count,true_mismatch_count,indexed_average_latency_us,brute_force_average_latency_us,candidate_reduction_ratio
+402.153,1000,1,0,0,6758.97,263326,0
