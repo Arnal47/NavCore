@@ -41,3 +41,4 @@ CT​​est 覆盖最短距离、最快路线、Dijkstra/A* 一致性、单行/�
 
 V2 adds offline small-XML OSM import and a lightweight educational GPS matcher. See [V2 design](docs/v2_map_matching.md). Build 
 avcore_match and run it with --osm data/sample_map.osm --gps data/sample_trace.csv. The fixtures and CI are fully offline; V2 intentionally excludes PBF, spatial indexes, GUI, traffic, and multithreading.
+`n## V3 Spatial Index + Dynamic Rerouting`n`nV3 adds a lightweight uniform-grid spatial index and deterministic 100x100 runtime benchmark. See docs/v3_spatial_rerouting.md.

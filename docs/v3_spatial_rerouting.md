@@ -1,0 +1,1 @@
+# V3 Spatial Index + Dynamic Rerouting`n`nV3 is an educational engineering project. It uses a lightweight uniform grid for nearby-road retrieval and retains brute force as reference. The index reports cell, candidate and latency stats; the runtime benchmark uses a deterministic 100x100 network. Dynamic production traffic, PBF, CH/ALT, GUI, GPU and multithreading are out of scope.

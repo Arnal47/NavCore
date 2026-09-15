@@ -1,0 +1,4 @@
+#include "navcore/road_event.hpp"
+#include "navcore/route_monitor.hpp"
+#include <iostream>
+int main(int c,char**v){try{std::string osm,gps,dest,close;for(int i=1;i+1<c;i+=2){std::string k=v[i],x=v[i+1];if(k=="--osm")osm=x;else if(k=="--gps")gps=x;else if(k=="--dest-node")dest=x;else if(k=="--close-edge")close=x;}auto g=navcore::load_osm_map(osm);auto ms=navcore::match_sequence(g,navcore::load_gps_trace(gps));auto old=navcore::route_from_matches(g,ms);navcore::RoadEventOverlay e;if(!close.empty())e.close(close);navcore::RouteMonitor mon;auto st=mon.update(ms.back(),old);auto rr=navcore::reroute_if_needed(g,ms.back(),old,dest,st,e);std::cout<<"old route edges="<<old.path_edges.size()<<" reason="<<rr.reason<<" rerouted="<<rr.rerouted<<" latency_ms="<<rr.latency_ms<<'\n';}catch(const std::exception&e){std::cerr<<"error: "<<e.what()<<'\n';return 2;}}

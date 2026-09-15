@@ -1,0 +1,2 @@
+index_build_ms,total_samples,strict_agreement_rate,equivalent_tie_count,true_mismatch_count,indexed_average_latency_us,brute_force_average_latency_us,indexed_average_raw_candidates,brute_force_average_scanned_segments,candidate_reduction_ratio
+379.861,1000,1,0,0,7163.9,273368,747.75,39600,0.981117

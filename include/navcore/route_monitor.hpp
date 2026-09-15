@@ -1,0 +1,3 @@
+#pragma once
+#include "navcore/navcore.hpp"
+namespace navcore { class RoadEventOverlay; enum class RouteState { ON_ROUTE,POSSIBLE_DEVIATION,DEVIATED }; struct MonitorConfig { std::size_t debounce_samples{3}; double lateral_threshold_m{40}; }; class RouteMonitor { public: explicit RouteMonitor(MonitorConfig c={}); RouteState update(const MatchResult&,const RouteResult&); private: MonitorConfig c_;std::size_t misses_{}; }; struct RerouteResult { bool rerouted{};std::string reason;RouteResult previous_route,new_route;double latency_ms{}; }; RerouteResult reroute_if_needed(const RoadGraph&,const MatchResult&,const RouteResult&,const std::string&,RouteState,const RoadEventOverlay&,RouteOptions={}); }
